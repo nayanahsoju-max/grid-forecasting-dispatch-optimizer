@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15
+    container_name: energy_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: energy_user
+      POSTGRES_PASSWORD: energy_pass
+      POSTGRES_DB: energy_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    image: python:3.11
+    container_name: energy_app
+    command: python -m http.server 8000
+    ports:
+      - "8000:8000"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+volumes:
+  postgres_data:
